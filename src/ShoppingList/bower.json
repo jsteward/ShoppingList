@@ -1,0 +1,23 @@
+{
+  "name": "ShoppingList",
+  "authors": [
+    "jsteward <jacques.steward@gmail.com>"
+  ],
+  "dependencies": {
+    "angular": "1.5.5",
+    "angular-route": "1.5.5",
+    "bootstrap": "3.3.6",
+    "angular-hammer": "1.2.4"
+  },
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

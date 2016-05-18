@@ -1,0 +1,22 @@
+﻿body {
+}
+
+
+.swipe {
+  padding: 20px 10px; 
+  background-color: green;
+  border: solid 1px;
+  color: black;
+  font-size: 1.5rem;
+
+}
+.app-header {
+    background: black;
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    padding: 20px 10px;
+}
+
+
+

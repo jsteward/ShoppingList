@@ -16,6 +16,13 @@ namespace ShoppingList.Controllers
             return new string[] { "value1", "value2" };
         }
 
+        [HttpGet("Index")]
+        [Route("index")]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)
