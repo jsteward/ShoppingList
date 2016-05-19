@@ -9,14 +9,19 @@
     <title></title>
 </head>
 <body>
-<div class="app-header">Shoping list.</div>
-<ng-view></ng-view>
-<script src="vendor/angular/angular.js"></script>
-<script src="vendor/angular-route/angular-route.js"></script>
+    <div class="app-wrapper">
+        <div class="app-header">Shoping list.</div>
+        <ng-view></ng-view>
+    </div>
 
-<script src="app/app.js"></script>
-<script src="app/list-route.js"></script>
-<script src="app/list-controller.js"></script>
+    <script src="vendor/angular/angular.js"></script>
+    <script src="vendor/angular-route/angular-route.js"></script>
+    <script src="vendor/hammerjs/hammer.js"></script>
+    <script src="vendor/angular-hammer/angular-hammer.js"></script>
+    <script src="vendor/lodash/dist/lodash.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/list-route.js"></script>
+    <script src="app/list-controller.js"></script>
 </body>
 
 </html>

@@ -1,12 +1,20 @@
 ﻿
 
-
-<div ng-controller="shoppinglistController">
-    <div class="app-addrow">
-        <input type="text"/>
-        <button>+</button>
+<form ng-submit="ctrl.addItem()">
+    <div class="app-shoppingListWrapper" ng-controller="shoppinglistController">
+        <div class="app-addrow">
+            <input type="text" ng-model="ctrl.newItemName" />
+            <button hm-tap="ctrl.addItem()">+</button>
+        </div>
+        <div class="app-listWrapper">
+            <div ng-repeat="item in ctrl.items">
+                <div hm-dragend="ctrl.dragEnd($event, $index)"
+                     hm-dragleft="ctrl.dragLeft($event, $index)"
+                     ng-style="ctrl.style[$index]"
+                     class="swipe">
+                    {{item.name}}
+                </div>
+            </div>
+        </div>
     </div>
-    <div ng-repeat="item in ctrl.items">
-        <div class="swipe">{{item.name}}</div>
-    </div>
-</div>
+</form>
