@@ -21,11 +21,11 @@ ng-view {
 }
 
 .swipe {
-    padding: 20px 10px;
-    background-color: green;
+    padding: 10px 10px;
+    background-color: #66a0aa;
     border: solid 1px;
     color: black;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
 }
 
 .clearfix:after {
@@ -37,7 +37,7 @@ ng-view {
 .app-header {
     background: black;
     color: white;
-    font-size: 2rem;
+    font-size: 4rem;
     text-align: center;
     padding: 20px 10px;
     flex: 0 0 auto;
@@ -50,7 +50,12 @@ ng-view {
     flex: 0 0;
 }
 
-    .app-addrow > input {
+.app-itemform {
+    display: flex;
+    flex: 1;
+
+}
+    .app-addrow input {
         flex: 1;
         font-size: 1.5rem;
         margin: 0;
@@ -58,17 +63,21 @@ ng-view {
         border-right: solid 1px #888;
     }
 
-    .app-addrow > button {
+    .app-addrow button {
         margin: 0;
         flex: 0 1 100px;
     }
 
-.app-listWrapper {
-    background:red;
+.app-list-container {
     overflow-y: scroll;
     flex: 1;
     display:flex;
     flex-direction: column;
+    overflow: auto;
+}
+
+.app-list-wrapper {
+    background: red;
 }
 
 .app-shoppingListWrapper {

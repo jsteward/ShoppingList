@@ -3,6 +3,7 @@
         'ngRoute',
         'shoppinglist.controller',
         'shoppinglist.routes',
-        'hmTouchEvents'
+        'hmTouchEvents',
+        'shoppinglist.component.item'
     ]);
 })();
