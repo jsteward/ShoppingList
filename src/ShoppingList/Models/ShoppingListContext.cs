@@ -6,11 +6,11 @@ using Microsoft.Data.Entity;
 
 namespace ShoppingList.Models
 {
-    public class GroceryListContext : DbContext
+    public class ShoppingListContext: DbContext
     {
         private static bool _created = false;
 
-        public GroceryListContext()
+        public ShoppingListContext()
         {
             if (!_created)
             {

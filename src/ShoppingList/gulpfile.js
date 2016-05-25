@@ -14,7 +14,8 @@ gulp.task('build-vendor', function () {
         './wwwroot/vendor/angular-route/angular-route.js',
         './wwwroot/vendor/hammerjs/hammer.js',
         './wwwroot/vendor/angular-hammer/angular-hammer.js',
-        './wwwroot/vendor/lodash/dist/lodash.js'
+        './wwwroot/vendor/lodash/dist/lodash.js',
+        './wwwroot/vendor/angular-resource/angular-resource.js'
 
     ])
       .pipe(concat('vendor.bundle.js'))
@@ -24,3 +25,7 @@ gulp.task('build-vendor', function () {
 gulp.task('build-all', [
     'build-app', 'build-vendor'
 ]);
+
+gulp.task('watch', function() {
+    gulp.watch('./wwwroot/app/**/*.js', ['build-all']);
+});

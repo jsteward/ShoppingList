@@ -7,9 +7,9 @@ using ShoppingList.Models;
 
 namespace ShoppingList.Migrations
 {
-    [DbContext(typeof(GroceryListContext))]
-    [Migration("20160518131947_Initial")]
-    partial class Initial
+    [DbContext(typeof(ShoppingListContext))]
+    [Migration("20160524131306_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,6 +21,8 @@ namespace ShoppingList.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Complete");
 
                     b.Property<int?>("ItemListId");
 

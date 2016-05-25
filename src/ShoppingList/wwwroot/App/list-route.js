@@ -1,12 +1,12 @@
 ﻿(function () {
     function shoppingListRouteConfiguration($routeProvider) {
-        $routeProvider.when('/', {
+        $routeProvider.when('/:itemListId', {
             templateUrl: 'views/list/index.html',
             controller: 'shoppinglistController',
             controllerAs: 'ctrl'
         });
 
-        $routeProvider.otherwise("/");
+        $routeProvider.otherwise("/1");
     }
 
     angular.module('shoppinglist.routes', ['ngRoute'])

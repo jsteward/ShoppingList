@@ -8,6 +8,7 @@ using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 using ShoppingList.Models;
 
 namespace ShoppingList
@@ -29,10 +30,18 @@ namespace ShoppingList
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ContractResolver =
+                        new CamelCasePropertyNamesContractResolver();
+                });
+
+            
+
             services.AddEntityFramework()
                 .AddSqlServer()
-                .AddDbContext<GroceryListContext>(options=>
+                .AddDbContext<ShoppingListContext>(options=>
                 options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
         }
 

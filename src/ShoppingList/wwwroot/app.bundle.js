@@ -1,10 +1,12 @@
 (function () {
     angular.module('shoppinglist', [
         'ngRoute',
+        'ngResource',
         'shoppinglist.controller',
         'shoppinglist.routes',
         'hmTouchEvents',
-        'shoppinglist.component.item'
+        'shoppinglist.component.item',
+        'shoppinglist.service'
     ]);
 })();
 (function () {
@@ -45,7 +47,7 @@
 })();
 /// <reference path="../../views/values/index.html" />
 (function () {
-    function shoppinglistController() {
+    function shoppinglistController(shoppinglistService, $routeParams) {
         var ctrl = this;
         ctrl.items = [];
         ctrl.newItemName = "";
@@ -57,35 +59,33 @@
         init();
         
         function removeItem(item) {
-            var index = _.findIndex(ctrl.items, {name:item.name});
-            ctrl.items.splice(index, 1);
+            
+
+            shoppinglistService.deleteItem(item).then(() => {
+                var index = _.findIndex(ctrl.items, { name: item.name });
+                ctrl.items.splice(index, 1);
+            });
+
+            
             
         }
 
         function addItem() {
+
             if (ctrl.newItemName !== "" && !_.find(ctrl.items, {name:ctrl.newItemName})) {
-                var item = { name: ctrl.newItemName, quantity: '1', notes: '', complete: 'false' };
-                ctrl.items.unshift(item);
-                ctrl.newItemName = "";
+                var item = { name: ctrl.newItemName, quantity: '1', notes: '', complete: 'false', itemListId: $routeParams.itemListId };
+
+                shoppinglistService.addItem(item).then((resp) => {
+                    ctrl.items.unshift(resp);
+                    ctrl.newItemName = "";
+                });
+
             }
             
         }
 
         function init() {
-
-            ctrl.items = [
-                { name: 'Flour', quantity: '1', notes: '', complete: 'false' },
-                { name: 'Rice', quantity: '1', notes: '', complete: 'false' },
-                { name: 'Onion', quantity: '1', notes: '', complete: 'false' },
-                { name: 'Salt', quantity: '1', notes: '', complete: 'false' },
-                { name: 'Eggs', quantity: '1', notes: '', complete: 'false' },
-                { name: 'Bacon', quantity: '1', notes: '', complete: 'false' },
-                { name: 'Milk', quantity: '1', notes: '', complete: 'false' },
-                { name: 'Bread', quantity: '1', notes: '', complete: 'false' },
-                { name: 'Bacon', quantity: '1', notes: '', complete: 'false' },
-                { name: 'Cheese', quantity: '1', notes: '', complete: 'false' },
-                { name: 'Apples', quantity: '1', notes: '', complete: 'false' }
-            ];
+            shoppinglistService.getAll(1).then((resp) => {ctrl.items = resp;});
         }
     }
 
@@ -94,25 +94,57 @@
 })();
 (function () {
     function shoppingListRouteConfiguration($routeProvider) {
-        $routeProvider.when('/', {
+        $routeProvider.when('/:itemListId', {
             templateUrl: 'views/list/index.html',
             controller: 'shoppinglistController',
             controllerAs: 'ctrl'
         });
 
-        $routeProvider.otherwise("/");
+        $routeProvider.otherwise("/1");
     }
 
     angular.module('shoppinglist.routes', ['ngRoute'])
         .config(['$routeProvider', shoppingListRouteConfiguration]);
 })();
 (function () {
-    function shoppinglistService () {
-        
+
+    function shoppinglistService($resource) {
+        var svc = this;
+
+        var url = '/api/lists/:itemListId/items/:itemId';
+        var settings = { cache: true, isArray: true };
+
+        var resource = $resource(url, { 'itemListId': '@itemListId' }, settings);
+
+        svc.addItem = addItem;
+
+        svc.editItem = editItem;
+
+        svc.deleteItem = deleteItem;
+
+        svc.getAll = getAll;
+
+        //svc.getItem = getItem;
+
+        function addItem(item) {
+            return resource.save(item).$promise;
+        }
+
+        function editItem(item) {
+            
+        }
+
+        function deleteItem(item) {
+            return resource.delete({ 'itemId': item.id }).$promise;
+        }
+
+
+
+        function getAll(itemListId) {
+            return resource.query({ 'itemListId': itemListId }).$promise;
+        }
     }
 
-
-
-    angular.module('shoppinglist.service', [$resource])
+    angular.module('shoppinglist.service', [])
     .service('shoppinglistService', shoppinglistService);
 })();
