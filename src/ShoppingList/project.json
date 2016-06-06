@@ -19,6 +19,7 @@
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
     "Microsoft.Framework.DependencyInjection": "1.0.0-beta8",
     "Microsoft.Framework.Logging": "1.0.0-beta8",
+    "Microsoft.AspNet.Cors": "6.0.0-rc1-final",
     "AngularJS.Core": "1.5.5"
   },
 

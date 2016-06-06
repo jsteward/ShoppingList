@@ -3,7 +3,7 @@
 
 <div class="app-shoppingListWrapper">
     <div class="app-addrow">
-        <form ng-submit="ctrl.addItem()" class="app-itemform">
+        <form ng-submit="ctrl.quickAddItem()" class="app-itemform">
             <input type="text" ng-model="ctrl.newItemName" />
             <button hm-tap="ctrl.addItem()">+</button>
         </form>
@@ -11,8 +11,9 @@
     <div class="app-list-container">
         <div class="app-list-wrapper">
             <list-item ng-repeat="item in ctrl.items"
-                       item="item" 
-                       on-delete="ctrl.removeItem(item)">
+                       item="item"
+                       on-delete="ctrl.removeItem(item)"
+                       on-update="ctrl.updateItem(item)">
             </list-item>
         </div>
 

@@ -48,10 +48,11 @@ namespace ShoppingList.Controllers
         }
 
         // PUT api/item/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Item item)
+        [HttpPut]
+        [Route("/api/lists/{listId}/items")]
+        public void Put([FromBody]Item item)
         {
-            var updatedItem = Context.Items.FirstOrDefault(x => x.Id == id);
+            var updatedItem = Context.Items.FirstOrDefault(x => x.Id == item.Id);
             if (updatedItem != null)
             {
                 updatedItem.Complete = item.Complete;

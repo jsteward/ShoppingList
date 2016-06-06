@@ -37,7 +37,7 @@ namespace ShoppingList
                         new CamelCasePropertyNamesContractResolver();
                 });
 
-            
+            services.AddCors();
 
             services.AddEntityFramework()
                 .AddSqlServer()
@@ -53,6 +53,7 @@ namespace ShoppingList
             app.UseIISPlatformHandler();
             app.UseStaticFiles();
             app.UseMvc();
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
         }
 
         // Entry point for the application.

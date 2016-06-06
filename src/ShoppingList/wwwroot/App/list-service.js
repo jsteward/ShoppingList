@@ -6,7 +6,7 @@
         var url = '/api/lists/:itemListId/items/:itemId';
         var settings = { cache: true, isArray: true };
 
-        var resource = $resource(url, { 'itemListId': '@itemListId' }, settings);
+        var resource = $resource(url, { 'itemListId': '@itemListId' }, { update: { method: 'PUT' } }, settings);
 
         svc.addItem = addItem;
 
@@ -23,6 +23,9 @@
         }
 
         function editItem(item) {
+            console.log(item);
+            return resource.update(item).$promise;
+            
             
         }
 
