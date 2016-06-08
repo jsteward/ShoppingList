@@ -1,0 +1,31 @@
+<ion-view view-title="Playlist">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="item in items" href="#/app/lists/{{item.id}}">
+        
+        <div hm-dragend="$ctrl.dragEnd($event)"
+     hm-dragleft="$ctrl.dragLeft($event)"
+     ng-style="$ctrl.style"
+     class="swipe">
+    <div class="item-name-wrapper" >
+        {{item.name}}
+    </div>
+    <div class="item-quantity-add">
+        <button type="button" class="btn button-icon ion-plus-circled" ng-click="$ctrl.quantityUp($event)">
+
+        </button>
+    </div>
+    <div class="item-quantity">
+        {{item.quantity}}
+    </div>
+    <div class="item-quantity-sub">
+        <button type="button" class="btn button-icon ion-minus-circled" ng-click="$ctrl.quantityDown($event)">
+
+        </button>
+    </div>
+
+</div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
