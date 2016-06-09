@@ -1,8 +1,8 @@
-<ion-view view-title="Playlist">
+<ion-view view-title="Items">
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="item in items" href="#/app/lists/{{item.id}}">
-        
+      <ion-item ng-repeat="item in listCtrl.items" href="#/app/lists/{{item.id}}">
+
         <div hm-dragend="$ctrl.dragEnd($event)"
      hm-dragleft="$ctrl.dragLeft($event)"
      ng-style="$ctrl.style"

@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers'])
+angular.module('listr', ['ionic', 'starter.controllers', 'listr.lists', 'listr.itemList', 'ngResource'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -49,7 +49,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       }
     })
-    .state('app.playlists', {
+    .state('app.lists', {
       url: '/lists',
       views: {
         'menuContent': {
@@ -64,7 +64,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     views: {
       'menuContent': {
         templateUrl: 'templates/list.html',
-        controller: 'ListCtrl'
+        controller: 'ListCtrl as listCtrl',
       }
     }
   });
@@ -115,28 +115,120 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('ListsCtrl', function($scope) {
-  $scope.lists = [
-    { title: 'Shopping', id: 1 }
-  ];
-})
+// .controller('ListsCtrl', listCtrl)
 
-.controller('ListCtrl', function($scope, $stateParams) {
-  $scope.items = [
-    { name: 'Tomatoes', id: 1, quantity:2 },
-    { name: 'Bread', id: 2, quantity:2 },
-    { name: 'Milk', id: 3, quantity:2 },
-    { name: 'Butter', id: 4, quantity:2 },
-    { name: 'Salt', id: 5, quantity:2 },
-    { name: 'Mayonaise', id: 6, quantity:2 },
-    { name: 'Tomatoes', id: 1, quantity:2 },
-    { name: 'Bread', id: 2, quantity:2 },
-    { name: 'Milk', id: 3, quantity:2 },
-    { name: 'Butter', id: 4, quantity:2 },
-    { name: 'Salt', id: 5, quantity:2 },
-    { name: 'Mayonaise', id: 6, quantity:2 }
-  ];
+// .controller('listCtrl', function($scope, $stateParams) {
+//   $scope.items = [
+//     { name: 'Tomatoes', id: 1, quantity:2 },
+//     { name: 'Bread', id: 2, quantity:2 },
+//     { name: 'Milk', id: 3, quantity:2 },
+//     { name: 'Butter', id: 4, quantity:2 },
+//     { name: 'Salt', id: 5, quantity:2 },
+//     { name: 'Mayonaise', id: 6, quantity:2 },
+//     { name: 'Tomatoes', id: 1, quantity:2 },
+//     { name: 'Bread', id: 2, quantity:2 },
+//     { name: 'Milk', id: 3, quantity:2 },
+//     { name: 'Butter', id: 4, quantity:2 },
+//     { name: 'Salt', id: 5, quantity:2 },
+//     { name: 'Mayonaise', id: 6, quantity:2 }
+//   ];
+//
+// });
+
+
+
+
+
+// function listCtrl($scope) {
+//     $scope.lists = [
+//       { title: 'Shopping', id: 1 }
+//     ];
+// }
+
+// Platform specific overrides will be placed in the merges folder versions of this file
+angular.module('listr.itemList.controller',[])
+.controller('ListCtrl', function($scope, $stateParams, itemListService) {
+  let ctrl = this;
+
+  // ctrl.items = [
+  //   { name: 'Tomatoes', id: 1, quantity:2 },
+  //   { name: 'Bread', id: 2, quantity:2 },
+  //   { name: 'Milk', id: 3, quantity:2 },
+  //   { name: 'Butter', id: 4, quantity:2 },
+  //   { name: 'Salt', id: 5, quantity:2 },
+  //   { name: 'Mayonaise', id: 6, quantity:2 },
+  //   { name: 'Tomatoes', id: 1, quantity:2 },
+  //   { name: 'Bread', id: 2, quantity:2 },
+  //   { name: 'Milk', id: 3, quantity:2 },
+  //   { name: 'Butter', id: 4, quantity:2 },
+  //   { name: 'Salt', id: 5, quantity:2 },
+  //   { name: 'Mayonaise', id: 6, quantity:2 }
+  // ];
+
+  init(); 
+
+  function init() {
+            itemListService.getAll(1).then((resp) => {ctrl.items = resp;});
+        }
+
+
 
 });
 
-// Platform specific overrides will be placed in the merges folder versions of this file
+angular.module('listr.itemList',['listr.itemList.controller', 'listr.itemList.service']);
+
+(function() {
+    function itemListService($resource) {
+        var svc = this;
+        var url = 'http://localhost:50604/api/lists/:itemListId/items/:itemId';
+        var settings = {
+            cache: true,
+            isArray: true
+        };
+        var resource = $resource(url, {
+            'itemListId': '@itemListId'
+        }, {
+            update: {}
+        }, settings);
+        svc.addItem = addItem;
+        svc.editItem = editItem;
+        svc.deleteItem = deleteItem;
+        svc.getAll = getAll;
+        //svc.getItem = getItem;
+        function addItem(item) {
+            return resource.save(item).$promise;
+        }
+
+        function editItem(item) {
+            console.log(item);
+            return resource.update(item).$promise;
+        }
+
+        function deleteItem(item) {
+            return resource.delete({
+                'itemId': item.id
+            }).$promise;
+        }
+
+
+
+        function getAll(itemListId) {
+            return resource.query({
+                'itemListId': itemListId
+            }).$promise;
+        }
+    }
+
+    angular.module('listr.itemList.service', [])
+        .service('itemListService', itemListService);
+})();
+
+angular.module('listr.lists.controller',[])
+  .controller('ListsCtrl',['$scope',function($scope){
+    $scope.lists = [
+      { title: 'Shopping', id: 1 }
+    ];
+
+  }]);
+
+angular.module('listr.lists',['listr.lists.controller']);

@@ -27,11 +27,27 @@ gulp.task('sass', function(done) {
     .on('end', done);
 });
 
+gulp.task('build-vendor', function () {
+    return gulp.src([
+        './www/lib/angular/angular.js',
+        './www/lib/angular-route/angular-route.js',
+        './www/lib/lodash/dist/lodash.js',
+        './www/lib/angular-resource/angular-resource.js'
+
+    ])
+      .pipe(concat('vendor.bundle.js'))
+      .pipe(gulp.dest('./www/'));
+});
+
 gulp.task('build-app', function () {
-    return gulp.src('./www/js/*.js')
+    return gulp.src('./www/js/**/*.js')
       .pipe(concat('app.bundle.js'))
       .pipe(gulp.dest('./www/'));
 });
+
+gulp.task('build-all', [
+    'build-app', 'build-vendor'
+]);
 
 gulp.task('watch', function () {
     gulp.watch('./www/js/**/*.js', ['build-app']);
